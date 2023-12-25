@@ -13,4 +13,18 @@ using Webshop.Models;
         }
 
         public DbSet<Webshop.Models.Product> Product { get; set; } = default!;
+        public DbSet<Webshop.Models.ShoppingCar> ShoppingCar { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ShoppingCar>()
+            .HasKey(sc => sc.ProductId);
+
+        modelBuilder.Entity<ShoppingCar>()
+            .HasOne(sc => sc.Product)
+            .WithMany(p => p.ShoppingCarItems)
+            .HasForeignKey(sc => sc.ProductId);
     }
+
+
+}
